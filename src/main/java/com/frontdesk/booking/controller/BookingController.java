@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frontdesk.booking.model.BookingEntity;
 import com.frontdesk.booking.model.BookingRequest;
 import com.frontdesk.booking.model.BookingResponse;
+import com.frontdesk.booking.model.CreateBookingResponse;
 import com.frontdesk.booking.model.DoctorEntity;
 import com.frontdesk.booking.model.PatientEntity;
 import com.frontdesk.booking.service.BookingService;
@@ -68,9 +69,12 @@ public class BookingController {
 	}
 
 	@PostMapping("/newbooking")
-	public ResponseEntity<String> createNewBooking(@RequestBody BookingRequest pNewBooking) {
-		System.out.println("Entered controller");
+	public ResponseEntity<List<CreateBookingResponse>> createNewBooking(@RequestBody BookingRequest pNewBooking) {
+		List<CreateBookingResponse> theCreateBookingResponse = new ArrayList<CreateBookingResponse>();
+		CreateBookingResponse createBookingResponse = new CreateBookingResponse();
 		BookingEntity newBooking = bookingService.createNewBooking(pNewBooking);
-		return new ResponseEntity<String>(Long.toString(newBooking.getId()), HttpStatus.OK);
+		createBookingResponse.setBookingID(String.valueOf(newBooking.getId()));
+		theCreateBookingResponse.add(createBookingResponse);
+		return new ResponseEntity<List<CreateBookingResponse>>(theCreateBookingResponse, HttpStatus.OK);
 	}
 }
