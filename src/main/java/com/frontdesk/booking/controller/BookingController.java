@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +21,12 @@ import com.frontdesk.booking.model.BookingRequest;
 import com.frontdesk.booking.model.BookingResponse;
 import com.frontdesk.booking.model.DoctorEntity;
 import com.frontdesk.booking.model.PatientEntity;
+import com.frontdesk.booking.model.UpdateStatus;
 import com.frontdesk.booking.service.BookingService;
 
 @RestController
 @RequestMapping("/frontdesk")
-@CrossOrigin(origins= "*",allowedHeaders="*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 
 public class BookingController {
 
@@ -48,7 +50,7 @@ public class BookingController {
 	@GetMapping("/booking/{booking_id}")
 	public ResponseEntity<List<BookingResponse>> getEmployeeById(@PathVariable("booking_id") Long pBookingid) {
 		BookingResponse aBookingResponse = bookingService.getBookingDetails(pBookingid);
-		List<BookingResponse> theBookingResponseList =new ArrayList<BookingResponse>();
+		List<BookingResponse> theBookingResponseList = new ArrayList<BookingResponse>();
 		if (aBookingResponse != null) {
 			theBookingResponseList.add(aBookingResponse);
 			return new ResponseEntity<List<BookingResponse>>(theBookingResponseList, HttpStatus.OK);
@@ -68,10 +70,22 @@ public class BookingController {
 	}
 
 	@PostMapping("/newbooking")
-	public ResponseEntity<List<String>> createNewBooking(@RequestBody BookingRequest pNewBooking) {		
-		BookingEntity newBooking = bookingService.createNewBooking(pNewBooking);	
+	public ResponseEntity<List<String>> createNewBooking(@RequestBody BookingRequest pNewBooking) {
+		BookingEntity newBooking = bookingService.createNewBooking(pNewBooking);
 		List<String> response = new ArrayList<String>();
 		response.add(String.valueOf(newBooking.getId()));
 		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+	}
+
+	@PostMapping("/updatestatus")
+	public String updateStatus(@RequestBody UpdateStatus pUpdateStatus) {
+		bookingService.updateNewStatus(pUpdateStatus);
+		return "Updated status successfully";
+	}
+
+	@DeleteMapping("/cancelbooking/{booking_id}")
+	public String deleteBookingById(@PathVariable("booking_id") Long pBookingid) {
+		bookingService.cancelBookingById(pBookingid);
+		return "Cancelled booking successfully";
 	}
 }

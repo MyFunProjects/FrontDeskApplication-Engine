@@ -6,12 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.frontdesk.booking.model.BookingEntity;
 import com.frontdesk.booking.model.BookingRequest;
 import com.frontdesk.booking.model.BookingResponse;
 import com.frontdesk.booking.model.DoctorEntity;
 import com.frontdesk.booking.model.PatientEntity;
+import com.frontdesk.booking.model.UpdateStatus;
 import com.frontdesk.booking.repository.BookingRepository;
 import com.frontdesk.booking.repository.DoctorRepository;
 import com.frontdesk.booking.repository.PatientRepository;
@@ -92,4 +94,20 @@ public class BookingService {
 		bookingRepository.save(aBooking);
 		return aBooking;
 	}
+
+	@Transactional
+	public void updateNewStatus(UpdateStatus pUpdateStatus) {
+		Optional<BookingEntity> aStatus = bookingRepository.findById(pUpdateStatus.getBooking_id());
+		if (aStatus.isPresent()) {
+			bookingRepository.setNewStatus(pUpdateStatus.getBookingStatus(), aStatus.get().getId());
+		}
+	}
+
+	public void cancelBookingById(Long pBookingid) {
+		Optional<BookingEntity> aBooking = bookingRepository.findById(pBookingid);
+		if (aBooking.isPresent()) {
+			bookingRepository.deleteById(pBookingid);
+		}
+	}
+
 }
