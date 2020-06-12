@@ -12,6 +12,9 @@ import javax.persistence.Table;
 
 public class BookingEntity {
 
+	public BookingEntity() {
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,6 +33,16 @@ public class BookingEntity {
 
 	@Column(name = "status")
 	private String status;
+
+	public BookingEntity(Long id, long patientID, long doctorID, String bookedSlot, String comments, String status) {
+		super();
+		this.id = id;
+		this.patientID = patientID;
+		this.doctorID = doctorID;
+		this.bookedSlot = bookedSlot;
+		this.comments = comments;
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;

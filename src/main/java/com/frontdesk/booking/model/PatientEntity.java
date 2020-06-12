@@ -12,6 +12,9 @@ import javax.persistence.Table;
 
 public class PatientEntity {
 
+	public PatientEntity() {
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,6 +24,13 @@ public class PatientEntity {
 
 	@Column(name = "age")
 	private int age;
+
+	public PatientEntity(Long id, String firstName, int age) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.age = age;
+	}
 
 	public Long getId() {
 		return id;

@@ -13,6 +13,10 @@ import javax.persistence.Table;
 
 public class DoctorEntity {
 
+	public DoctorEntity() {
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,6 +29,14 @@ public class DoctorEntity {
 
 	@Column(name = "avail_time")
 	private String availableTime;
+
+	public DoctorEntity(Long id, String firstName, String specialist, String availableTime) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.specialist = specialist;
+		this.availableTime = availableTime;
+	}
 
 	public Long getId() {
 		return id;

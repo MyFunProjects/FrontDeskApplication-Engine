@@ -2,11 +2,24 @@ package com.frontdesk.booking.model;
 
 public class BookingRequest {
 
+	public BookingRequest() {
+	}
+
 	public PatientEntity patientDetails;
 	public DoctorEntity doctorDetails;
 	public String bookedSlot;
 	public String comments;
 	public String status;
+
+	public BookingRequest(PatientEntity patientDetails, DoctorEntity doctorDetails, String bookedSlot, String comments,
+			String status) {
+		super();
+		this.patientDetails = patientDetails;
+		this.doctorDetails = doctorDetails;
+		this.bookedSlot = bookedSlot;
+		this.comments = comments;
+		this.status = status;
+	}
 
 	public DoctorEntity getDoctorDetails() {
 		return doctorDetails;
